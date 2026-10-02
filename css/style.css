@@ -1,0 +1,209 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0b0910;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e0e0e0;
+}
+
+#app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#canvas-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #1a1528 0%, #08060c 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    padding: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.menu-content {
+    background: rgba(18, 14, 28, 0.85);
+    border: 2px solid #523975;
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(82, 57, 117, 0.5);
+}
+
+.scrollable {
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.glow-text {
+    font-size: 2.2rem;
+    color: #d1b3ff;
+    text-shadow: 0 0 10px #8a2be2, 0 0 20px #8a2be2;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: #9a88b5;
+    margin-bottom: 25px;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+button {
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #7b2cbf, #5a189a);
+    color: #fff;
+    border: 1px solid #9d4edd;
+    box-shadow: 0 0 10px rgba(123, 44, 191, 0.4);
+}
+
+.primary-btn:active {
+    transform: scale(0.97);
+}
+
+.secondary-btn {
+    background: #241b35;
+    color: #d8b4fe;
+    border: 1px solid #4a3565;
+}
+
+.secondary-btn:active {
+    transform: scale(0.97);
+}
+
+.tertiary-btn {
+    background: transparent;
+    color: #9a88b5;
+    border: 1px dashed #4a3565;
+}
+
+label {
+    display: block;
+    margin: 15px 0;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #d8b4fe;
+}
+
+select, input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px;
+    background: #14101f;
+    border: 1px solid #4a3565;
+    color: #fff;
+    border-radius: 4px;
+}
+
+/* In-Game HUD Elements */
+#game-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.hud-top, .hud-bottom, .hud-controls-row {
+    pointer-events: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hud-btn {
+    background: rgba(36, 27, 53, 0.85);
+    color: #d8b4fe;
+    border: 1px solid #5a189a;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+}
+
+#turn-indicator {
+    background: rgba(18, 14, 28, 0.85);
+    border: 1px solid #7b2cbf;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #e2d9f3;
+    box-shadow: 0 0 10px rgba(123, 44, 191, 0.3);
+}
+
+.hud-panel {
+    background: rgba(18, 14, 28, 0.85);
+    border: 1px solid #4a3565;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.85km;
+    color: #c4b5fd;
+    max-width: 60%;
+}
+
+#webgl-error {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: #ff4d4d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 20px;
+    text-align: center;
+}
