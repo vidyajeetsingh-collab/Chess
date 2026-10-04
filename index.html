@@ -1,93 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>MYSTERY CHESS</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Three.js & OrbitControls via CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#090b10">
+
+  <title>LIFELOOP AI</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
+
 <body>
-    <!-- WebGL Fallback Container -->
-    <div id="webgl-error" class="hidden">
-        <h1>WebGL Not Supported</h1>
-        <p>Your browser or Android device does not support WebGL, which is required for 3D Mystery Chess.</p>
-    </div>
 
-    <!-- Main UI Wrapper -->
-    <div id="app-container">
-        <!-- Main Menu Overlay -->
-        <div id="main-menu" class="screen">
-            <div class="menu-content">
-                <h1 class="glow-text">MYSTERY CHESS</h1>
-                <p class="subtitle">Explore. Uncover. Conquer.</p>
-                <div class="menu-buttons">
-                    <button id="btn-mystery-mode" class="primary-btn">Mystery Mode</button>
-                    <button id="btn-classic-mode" class="secondary-btn">Classic Mode</button>
-                    <button id="btn-ai-mode" class="secondary-btn">Play vs AI</button>
-                    <button id="btn-local-pvp" class="secondary-btn">Local 2-Player</button>
-                    <button id="btn-challenges" class="secondary-btn">Mystery Challenges</button>
-                    <button id="btn-settings" class="tertiary-btn">Settings</button>
-                    <button id="btn-help" class="tertiary-btn">How to Play</button>
-                </div>
-            </div>
+  <div id="app">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <div class="brand">
+        <div class="brand-mark">L</div>
+
+        <div>
+          <div class="brand-name">LIFELOOP</div>
+          <div class="brand-subtitle">Your personal AI</div>
+        </div>
+      </div>
+
+      <button
+        class="icon-button"
+        id="themeButton"
+        aria-label="Change theme"
+      >
+        ◐
+      </button>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main id="mainContent">
+
+      <!-- HOME -->
+      <section
+        class="screen active"
+        id="screen-home"
+        data-route="home"
+      >
+
+        <div class="greeting">
+          <span id="greetingText">Good afternoon</span>
+          <h1>What do you want to<br><strong>get done?</strong></h1>
         </div>
 
-        <!-- Settings Screen -->
-        <div id="settings-screen" class="screen hidden">
-            <div class="menu-content">
-                <h2>Settings</h2>
-                <label>AI Difficulty: 
-                    <select id="ai-difficulty">
-                        <option value="easy">Novice</option>
-                        <option value="medium" selected>Adept</option>
-                        <option value="hard">Master</option>
-                    </select>
-                </label>
-                <label>Fog Density: 
-                    <input type="range" id="fog-range" min="1" max="5" value="3">
-                </label>
-                <button id="btn-close-settings" class="primary-btn">Back to Menu</button>
-            </div>
+
+        <!-- AI COMMAND -->
+        <div class="ai-command-card">
+
+          <div class="ai-status">
+            <span class="status-dot"></span>
+            <span>LIFELOOP AI</span>
+          </div>
+
+          <textarea
+            id="aiInput"
+            class="ai-input"
+            rows="2"
+            placeholder="Ask anything or tell me what to do..."
+          ></textarea>
+
+          <div class="command-actions">
+
+            <button
+              class="command-action"
+              id="voiceButton"
+            >
+              <span>●</span>
+              Voice
+            </button>
+
+            <button
+              class="command-action"
+              id="attachButton"
+            >
+              ＋
+              Attach
+            </button>
+
+            <button
+              class="send-button"
+              id="sendButton"
+              aria-label="Send"
+            >
+              ↑
+            </button>
+
+          </div>
+
         </div>
 
-        <!-- How to Play Screen -->
-        <div id="help-screen" class="screen hidden">
-            <div class="menu-content scrollable">
-                <h2>How to Play Mystery Chess</h2>
-                <p><strong>Fog of Mystery:</strong> The board is shrouded in darkness. Move your pieces forward to clear the fog and reveal hidden enemy positions.</p>
-                <p><strong>Hidden Squares:</strong> Stepping on secret runes triggers mystery effects such as temporary area illumination or tactical hints.</p>
-                <p><strong>Standard Chess:</strong> Checkmate the enemy king to claim victory while balancing exploration risks!</p>
-                <button id="btn-close-help" class="primary-btn">Got It</button>
-            </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="section-heading">
+          <h2>Quick actions</h2>
+          <span>More</span>
         </div>
 
-        <!-- In-Game HUD Overlay -->
-        <div id="game-hud" class="hidden">
-            <div class="hud-top">
-                <button id="hud-menu-btn" class="hud-btn">Menu</button>
-                <div id="turn-indicator">White's Turn</div>
-                <button id="hud-undo-btn" class="hud-btn">Undo</button>
-            </div>
-            <div class="hud-bottom">
-                <div id="mystery-log" class="hud-panel">Mysteries Discovered: None</div>
-                <div class="hud-controls-row">
-                    <button id="hud-reset-btn" class="hud-btn">Reset</button>
-                    <button id="hud-hint-btn" class="hud-btn">Hint</button>
-                </div>
-            </div>
+        <div class="quick-grid">
+
+          <button
+            class="quick-card"
+            data-action="task"
+          >
+            <span class="quick-icon">✓</span>
+            <strong>Task</strong>
+            <small>Create something to do</small>
+          </button>
+
+          <button
+            class="quick-card"
+            data-action="reminder"
+          >
+            <span class="quick-icon">◷</span>
+            <strong>Reminder</strong>
+            <small>Don't forget something</small>
+          </button>
+
+          <button
+            class="quick-card"
+            data-action="note"
+          >
+            <span class="quick-icon">▤</span>
+            <strong>Note</strong>
+            <small>Save an idea</small>
+          </button>
+
+          <button
+            class="quick-card"
+            data-action="plan"
+          >
+            <span class="quick-icon">✦</span>
+            <strong>Plan</strong>
+            <small>Organize your day</small>
+          </button>
+
         </div>
 
-        <!-- 3D Canvas Container -->
-        <div id="canvas-container"></div>
-    </div>
 
-    <!-- Scripts modular import -->
-    <script src="js/mystery.js"></script>
-    <script src="js/renderer.js"></script>
-    <script src="js/ai.js"></script>
-    <script src="js/game.js"></script>
+        <!-- TODAY -->
+        <div class="section-heading">
+          <h2>Today</h2>
+          <span id="todayDate"></span>
+        </div>
+
+        <div class="today-card">
+
+          <div class="today-row">
+            <div class="today-icon">✓</div>
+
+            <div class="today-content">
+              <strong>Tasks</strong>
+              <span id="taskCount">0 tasks</span>
+            </div>
+
+            <button
+              class="mini-arrow"
+              data-route="tasks"
+            >
+              →
+            </button>
+          </div>
+
+
+          <div class="today-row">
+            <div class="today-icon">◷</div>
+
+            <div class="today-content">
+              <strong>Reminders</strong>
+              <span id="reminderCount">0 reminders</span>
+            </div>
+
+            <button
+              class="mini-arrow"
+              data-route="reminders"
+            >
+              →
+            </button>
+          </div>
+
+
+          <div class="today-row">
+            <div class="today-icon">□</div>
+
+            <div class="today-content">
+              <strong>Calendar</strong>
+              <span id="calendarPreview">Nothing scheduled</span>
+            </div>
+
+            <button
+              class="mini-arrow"
+              data-route="calendar"
+            >
+              →
+            </button>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- AI -->
+      <section
+        class="screen"
+        id="screen-ai"
+        data-route="ai"
+      >
+
+        <div class="screen-title">
+          <span>✦</span>
+          <div>
+            <h1>AI Assistant</h1>
+            <p>Think, plan and act with LIFELOOP.</p>
+          </div>
+        </div>
+
+        <div id="chatMessages" class="chat-messages">
+
+          <div class="welcome-ai">
+            <div class="ai-avatar">L</div>
+
+            <div>
+              <strong>Hi, I'm LIFELOOP.</strong>
+              <p>
+                Tell me what you need. I can help you
+                understand, organize and take action.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="chat-input-area">
+
+          <textarea
+            id="chatInput"
+            rows="1"
+            placeholder="Message LIFELOOP..."
+          ></textarea>
+
+          <button id="chatSendButton">
+            ↑
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- TASKS -->
+      <section
+        class="screen"
+        id="screen-tasks"
+        data-route="tasks"
+      >
+
+        <div class="screen-title">
+          <span>✓</span>
+          <div>
+            <h1>Tasks</h1>
+            <p>Keep your work moving.</p>
+          </div>
+        </div>
+
+        <div id="taskList" class="item-list"></div>
+
+      </section>
+
+
+      <!-- REMINDERS -->
+      <section
+        class="screen"
+        id="screen-reminders"
+        data-route="reminders"
+      >
+
+        <div class="screen-title">
+          <span>◷</span>
+          <div>
+            <h1>Reminders</h1>
+            <p>Important things at the right time.</p>
+          </div>
+        </div>
+
+        <div id="reminderList" class="item-list"></div>
+
+      </section>
+
+
+      <!-- CALENDAR -->
+      <section
+        class="screen"
+        id="screen-calendar"
+        data-route="calendar"
+      >
+
+        <div class="screen-title">
+          <span>□</span>
+          <div>
+            <h1>Calendar</h1>
+            <p>See what is coming next.</p>
+          </div>
+        </div>
+
+        <div class="calendar-card">
+
+          <div class="calendar-date">
+            <strong id="calendarDay">--</strong>
+
+            <div>
+              <strong id="calendarMonth">---</strong>
+              <span id="calendarWeekday">---</span>
+            </div>
+          </div>
+
+          <div class="empty-state">
+            <span>□</span>
+            <strong>No events yet</strong>
+            <p>Your upcoming events will appear here.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- NOTES -->
+      <section
+        class="screen"
+        id="screen-notes"
+        data-route="notes"
+      >
+
+        <div class="screen-title">
+          <span>▤</span>
+          <div>
+            <h1>Notes</h1>
+            <p>Capture thoughts before they disappear.</p>
+          </div>
+        </div>
+
+        <div class="note-create-card">
+
+          <input
+            id="noteTitle"
+            placeholder="Note title"
+          >
+
+          <textarea
+            id="noteBody"
+            rows="5"
+            placeholder="Write something..."
+          ></textarea>
+
+          <button id="saveNoteButton" class="primary-button">
+            Save note
+          </button>
+
+        </div>
+
+        <div id="noteList" class="item-list"></div>
+
+      </section>
+
+    </main>
+
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+
+      <button
+        class="nav-item active"
+        data-route="home"
+      >
+        <span>⌂</span>
+        <small>Home</small>
+      </button>
+
+      <button
+        class="nav-item"
+        data-route="tasks"
+      >
+        <span>✓</span>
+        <small>Tasks</small>
+      </button>
+
+      <button
+        class="nav-item ai-nav"
+        data-route="ai"
+      >
+        <span>✦</span>
+        <small>AI</small>
+      </button>
+
+      <button
+        class="nav-item"
+        data-route="calendar"
+      >
+        <span>□</span>
+        <small>Calendar</small>
+      </button>
+
+      <button
+        class="nav-item"
+        data-route="notes"
+      >
+        <span>▤</span>
+        <small>Notes</small>
+      </button>
+
+    </nav>
+
+
+    <!-- TOAST -->
+    <div
+      id="toast"
+      class="toast"
+      aria-live="polite"
+    ></div>
+
+  </div>
+
+
+  <script src="js/database.js"></script>
+  <script src="js/memory.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/app.js"></script>
+
 </body>
 </html>
