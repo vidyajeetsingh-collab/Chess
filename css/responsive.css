@@ -1,0 +1,25 @@
+@media (min-width: 700px) {
+
+  .topbar {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .screen {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .bottom-nav {
+    left: 50%;
+    right: auto;
+    width: min(600px, calc(100% - 30px));
+    transform: translateX(-50%);
+    border: 1px solid var(--border);
+    border-radius: 22px 22px 0 0;
+  }
+}
