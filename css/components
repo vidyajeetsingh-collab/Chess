@@ -1,0 +1,49 @@
+/* Reusable LIFELOOP components */
+
+.card-glow {
+  box-shadow:
+    0 0 0 1px rgba(124,140,255,0.08),
+    0 20px 50px rgba(0,0,0,0.25);
+}
+
+.priority-high {
+  border-left: 3px solid var(--danger);
+}
+
+.priority-normal {
+  border-left: 3px solid var(--accent);
+}
+
+.loading-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.loading-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: loading 0.9s infinite alternate;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading {
+  from {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
