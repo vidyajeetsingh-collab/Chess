@@ -1,33 +1,79 @@
-class MysteryChessAI {
-    constructor(difficulty) {
-        this.difficulty = difficulty; // 'easy', 'medium', 'hard'
+const LIFELOOP_AI = (() => {
+
+  const endpoint =
+    "/.netlify/functions/ai";
+
+
+  async function ask(message, options = {}) {
+
+    if (!message || !message.trim()) {
+      throw new Error("Please enter a message.");
     }
 
-    getBestMove(game) {
-        const legalMoves = game.getAllLegalMoves('b');
-        if (legalMoves.length === 0) return null;
+    const context =
+      Memory.buildContext(message);
 
-        if (this.difficulty === 'easy') {
-            return legalMoves[Math.floor(Math.random() * legalMoves.length)];
-        }
+    const payload = {
 
-        // Medium / Hard heuristic evaluation
-        let bestMove = legalMoves[0];
-        let maxScore = -9999;
+      message: message.trim(),
 
-        legalMoves.forEach(move => {
-            let score = Math.random() * 10; // slight tiebreaker entropy
-            const targetPiece = game.getPieceAt(move.toX, move.toY);
-            if (targetPiece) {
-                const values = { p: 10, n: 30, b: 30, r: 50, q: 90, k: 900 };
-                score += values[targetPiece.type] || 0;
-            }
-            if (score > maxScore) {
-                maxScore = score;
-                bestMove = move;
-            }
-        });
+      context,
 
-        return bestMove;
+      conversation:
+        options.conversation || [],
+
+      mode:
+        options.mode || "assistant"
+    };
+
+
+    const response =
+      await fetch(endpoint, {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(payload)
+      });
+
+
+    let data;
+
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error(
+        "The AI server returned an invalid response."
+      );
     }
-}
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "LIFELOOP AI could not respond."
+      );
+    }
+
+
+    if (!data.text) {
+
+      throw new Error(
+        "The AI returned an empty response."
+      );
+    }
+
+
+    return data.text;
+  }
+
+
+  return {
+    ask
+  };
+
+})();
